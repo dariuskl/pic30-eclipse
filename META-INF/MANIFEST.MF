@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PIC30 Tool-chain
+Bundle-SymbolicName: org.eclipse.cdt.pic30.toolchain;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Cologne University of Applied Sciences
+Require-Bundle: org.eclipse.cdt.managedbuilder.core;bundle-version="8.2.1"
