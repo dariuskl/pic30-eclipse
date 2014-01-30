@@ -208,8 +208,7 @@
                      isAbstract="false"
                      name="PIC30 GCC C Linker"
                      natureFilter="cnature"
-                     outputFlag="-o"
-                     outputs="coff">
+                     outputFlag="-o">
                   <inputType
                         buildVariable="OBJS"
                         id="org.eclipse.cdt.pic30.toolchain.tools.coff.linker.input"
