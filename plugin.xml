@@ -15,6 +15,13 @@
             languageSettingsProviders="org.eclipse.cdt.managedbuilder.core.MBSLanguageSettingsProvider"
             name="Base Configuration">
       </configuration>
+      <builder
+            command="make"
+            id="org.eclipse.cdt.pic30.builder"
+            isAbstract="false"
+            isVariableCaseSensitive="false"
+            name="PIC30 GNU Make builder">
+      </builder>
       <tool
             command="pic30-coff-gcc"
             errorParsers="org.eclipse.cdt.core.GCCErrorParser"
@@ -358,250 +365,80 @@
                valueType="string">
          </option>
       </tool>
+      <tool
+            command="pic30-coff-gcc"
+            errorParsers="org.eclipse.cdt.core.GLDErrorParser"
+            id="org.eclipse.cdt.pic30.tools.coff.linker"
+            isAbstract="false"
+            name="PIC30 C Linker"
+            natureFilter="cnature"
+            outputFlag="-o">
+         <inputType
+               buildVariable="OBJS"
+               id="org.eclipse.cdt.pic30.tools.coff.linker.input"
+               name="PIC30 GCC C Linker Input"
+               primaryInput="true"
+               sourceContentType="org.eclipse.cdt.managedbuilder.core.compiledObjectFile"
+               sources="o">
+            <additionalInput
+                  kind="additionalinputdependency"
+                  paths="$(USER_OBJS)">
+            </additionalInput>
+            <additionalInput
+                  kind="additionalinput"
+                  paths="$(LIBS)">
+            </additionalInput>
+         </inputType>
+         <outputType
+               id="org.eclipse.cdt.pic30.tools.coff.linker.output"
+               name="PIC30 GCC C Linker Output"
+               nameProvider="org.eclipse.cdt.managedbuilder.makegen.gnu.GnuLinkOutputNameProvider"
+               outputs="coff"
+               primaryOutput="true">
+         </outputType>
+      </tool>
+      <tool
+            command="pic30-coff-ar"
+            id="org.eclipse.cdt.pic30.tools.coff.archiver"
+            isAbstract="false"
+            name="PIC30 COFF Archiver"
+            natureFilter="both">
+         <inputType
+               buildVariable="OBJS"
+               dependencyCalculator="org.eclipse.cdt.managedbuilder.makegen.internal.DefaultNoDependencyCalculator"
+               id="org.eclipse.cdt.pic30.tools.coff.archiver.input"
+               multipleOfType="true"
+               sourceContentType="org.eclipse.cdt.managedbuilder.core.compiledObjectFile"
+               sources="o">
+         </inputType>
+         <outputType
+               buildVariable="ARCHIVES"
+               id="org.eclipse.cdt.pic30.tools.coff.archiver.output"
+               name="PIC30 Static Library Archive"
+               nameProvider="org.eclipse.cdt.managedbuilder.makegen.gnu.GnuLinkOutputNameProvider"
+               outputPrefix="lib"
+               outputs="a">
+         </outputType>
+         <optionCategory
+               id="org.eclipse.cdt.pic30.tools.coff.archiver.options.general"
+               name="General"
+               owner="org.eclipse.cdt.pic30.tools.coff.archiver">
+         </optionCategory>
+         <option
+               category="org.eclipse.cdt.pic30.tools.coff.archiver.options.general"
+               defaultValue="-r"
+               id="org.eclipse.cdt.pic30.tools.coff.archiver.options.general.archiverFlags"
+               isAbstract="false"
+               name="Archiver flags"
+               resourceFilter="all"
+               valueType="string">
+         </option>
+      </tool>
       <projectType
             id="org.eclipse.cdt.pic30.executable"
             isAbstract="false"
             isTest="false"
             name="Executable for PIC30">
-         <configuration
-               cleanCommand="rm -f"
-               description="This plugin is a very lazy implementation, so you are offered only this configuration that you have to tweak to achieve what you want."
-               errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser"
-               id="org.eclipse.cdt.pic30.toolchain.configuration.lazy"
-               languageSettingsProviders="org.eclipse.cdt.managedbuilder.core.MBSLanguageSettingsProvider"
-               name="Lazy">
-            <toolChain
-                  archList="all"
-                  id="org.eclipse.cdt.pic30.toolchain.coff"
-                  isAbstract="false"
-                  name="PIC30 COFF GCC"
-                  osList="all"
-                  targetTool="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler;org.eclipse.cdt.pic30.toolchain.tools.coff.linker">
-               <builder
-                     command="make"
-                     id="org.eclipse.cdt.pic30.toolchain.builder"
-                     isAbstract="false"
-                     name="PIC30 Builder">
-               </builder>
-               <targetPlatform
-                     id="org.eclipse.cdt.pic30.toolchain.platforms.epuck"
-                     isAbstract="false"
-                     name="e-puck"
-                     osList="other">
-               </targetPlatform>
-               <tool
-                     command="pic30-coff-gcc"
-                     errorParsers="org.eclipse.cdt.core.GCCErrorParser"
-                     id="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler"
-                     isAbstract="false"
-                     name="PIC30 GCC C Compiler"
-                     natureFilter="both"
-                     outputFlag="-o">
-                  <inputType
-                        dependencyCalculator="org.eclipse.cdt.managedbuilder.makegen.internal.DefaultIndexerDependencyCalculator"
-                        dependencyContentType="org.eclipse.cdt.core.cHeader"
-                        dependencyExtensions="h"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler.input"
-                        name="PIC30 COFF GCC Input"
-                        primaryInput="true"
-                        sourceContentType="org.eclipse.cdt.core.cSource"
-                        sources="c"
-                        superClass="cdt.managedbuild.tool.gnu.c.compiler.input">
-                  </inputType>
-                  <outputType
-                        buildVariable="OBJS"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler.output"
-                        name="PIC30 COFF GCC Output"
-                        option="-o"
-                        outputContentType="org.eclipse.cdt.core.objectFile"
-                        outputs="o"
-                        primaryOutput="true">
-                  </outputType>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.targetConfiguration"
-                        name="Target Configuration"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.targetConfiguration"
-                        command="-D"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.targetProcessor"
-                        isAbstract="false"
-                        name="Target Processor"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           command="-D__dsPIC30F6014A__"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.targetProcessor.dsPIC30F6014A"
-                           isDefault="true"
-                           name="dsPIC30F6014A">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.symbols"
-                        name="Symbols"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.symbols"
-                        command="-D"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.symbols.defined"
-                        isAbstract="false"
-                        name="Defined symbols (-D)"
-                        resourceFilter="all"
-                        valueType="definedSymbols">
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.includes"
-                        name="Includes"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        browseType="directory"
-                        category="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.includes"
-                        command="-I"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.includes.includes"
-                        isAbstract="false"
-                        name="Include paths (-I)"
-                        resourceFilter="all"
-                        valueType="includePath">
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization"
-                        name="Optimization"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization"
-                        command="-O"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level"
-                        isAbstract="false"
-                        name="Optimization Level"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           command="-O0"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O0"
-                           isDefault="true"
-                           name="None (-O0)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O1"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O1"
-                           isDefault="false"
-                           name="Optimize (-O1)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O2"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O2"
-                           isDefault="false"
-                           name="Optimize more (-O2)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O3"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O3"
-                           isDefault="false"
-                           name="Optimize most (-O3)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-Os"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.Os"
-                           isDefault="false"
-                           name="Optimize for size (-Os)">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging"
-                        name="Debugging"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging"
-                        command="-g"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debuggin.level"
-                        isAbstract="false"
-                        name="Debug Level"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.none"
-                           isDefault="false"
-                           name="None">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g1"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g1"
-                           isDefault="false"
-                           name="Minimal (-g1)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g"
-                           isDefault="true"
-                           name="Default (-g)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g2"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g2"
-                           isDefault="false"
-                           name="Full (-g2)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g3"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g3"
-                           isDefault="false"
-                           name="Maximum (-g3)">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.executable.configurations.lazy.toolchain.compiler.options.misc"
-                        name="Miscellaneous"
-                        owner="org.eclipse.cdt.pic30.toolchain.tools.coff.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.executable.configurations.lazy.toolchain.compiler.options.misc"
-                        defaultValue="-c -fmessage-length=0"
-                        id="org.eclipse.cdt.pic30.executable.configurations.default.toolchain.compiler.options.misc.otherFlags"
-                        isAbstract="false"
-                        name="Other flags"
-                        resourceFilter="all"
-                        valueType="string">
-                  </option>
-               </tool>
-               <tool
-                     command="pic30-coff-gcc"
-                     errorParsers="org.eclipse.cdt.core.GCCErrorParser"
-                     id="org.eclipse.cdt.pic30.toolchain.tools.coff.linker"
-                     isAbstract="false"
-                     name="PIC30 GCC C Linker"
-                     natureFilter="cnature"
-                     outputFlag="-o">
-                  <inputType
-                        buildVariable="OBJS"
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.linker.input"
-                        name="PIC30 GCC C Linker Input"
-                        primaryInput="true"
-                        sourceContentType="org.eclipse.cdt.managedbuilder.core.compiledObjectFile"
-                        sources="o">
-                     <additionalInput
-                           kind="additionalinputdependency"
-                           paths="$(USER_OBJS)">
-                     </additionalInput>
-                     <additionalInput
-                           kind="additionalinput"
-                           paths="$(LIBS)">
-                     </additionalInput>
-                  </inputType>
-                  <outputType
-                        id="org.eclipse.cdt.pic30.toolchain.tools.coff.linker.output"
-                        name="PIC30 GCC C Linker Output"
-                        nameProvider="org.eclipse.cdt.managedbuilder.makegen.gnu.GnuLinkOutputNameProvider"
-                        outputs="coff"
-                        primaryOutput="true">
-                  </outputType>
-               </tool>
-            </toolChain>
-         </configuration>
          <configuration
                artifactExtension="coff"
                id="org.eclipse.cdt.pic30.executable.Default"
@@ -618,6 +455,12 @@
                      isAbstract="false"
                      name="PIC30 C Compiler"
                      superClass="org.eclipse.cdt.pic30.tools.coff.compiler">
+               </tool>
+               <tool
+                     id="org.eclipse.cdt.pic30.executable.default.tools.linker"
+                     isAbstract="false"
+                     name="PIC30 C Linker"
+                     superClass="org.eclipse.cdt.pic30.tools.coff.linker">
                </tool>
                <builder
                      command="make"
@@ -640,19 +483,28 @@
             isTest="false"
             name="PIC30 Static Library">
          <configuration
-               cleanCommand="rm -f"
-               description="The default configuration for a static library. Includes debug information and no optimization."
-               errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser"
+               artifactExtension="a"
                id="org.eclipse.cdt.pic30.library.static.configurations.default"
-               languageSettingsProviders="org.eclipse.cdt.managedbuilder.core.MBSLanguageSettingsProvider"
-               name="Default">
+               name="Default"
+               parent="org.eclipse.cdt.pic30.configuration.base">
             <toolChain
                   archList="all"
                   id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain"
                   isAbstract="false"
-                  name="PIC30 COFF GCC"
-                  osList="all"
-                  targetTool="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver;org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
+                  name="PIC30 COFF"
+                  osList="all">
+               <tool
+                     id="org.eclipse.cdt.pic30.library.static.default.tools.archiver"
+                     isAbstract="false"
+                     name="PIC30 C Archiver"
+                     superClass="org.eclipse.cdt.pic30.tools.coff.archiver">
+               </tool>
+               <tool
+                     id="org.eclipse.cdt.pic30.library.static.default.tools.compiler"
+                     isAbstract="false"
+                     name="PIC30 C Compiler"
+                     superClass="org.eclipse.cdt.pic30.tools.coff.compiler">
+               </tool>
                <builder
                      command="make"
                      id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.builder"
@@ -662,217 +514,9 @@
                <targetPlatform
                      id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.epuck"
                      isAbstract="false"
-                     name="e-puck"
+                     name="PIC30*"
                      osList="other">
                </targetPlatform>
-               <tool
-                     command="pic30-coff-ar"
-                     id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver"
-                     isAbstract="false"
-                     name="PIC30 GCC Archiver"
-                     natureFilter="both">
-                  <outputType
-                        buildVariable="ARCHIVES"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver.output"
-                        name="PIC30 Static Library Archive"
-                        nameProvider="org.eclipse.cdt.managedbuilder.makegen.gnu.GnuLinkOutputNameProvider"
-                        outputPrefix="lib"
-                        outputs="a">
-                  </outputType>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver.options.general"
-                        name="General"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver.options.general"
-                        defaultValue="-r"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.archiver.options.general.archiverFlags"
-                        isAbstract="false"
-                        name="Archiver flags"
-                        resourceFilter="all"
-                        valueType="string">
-                  </option>
-               </tool>
-               <tool
-                     command="pic30-coff-gcc"
-                     errorParsers="org.eclipse.cdt.core.GCCErrorParser"
-                     id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler"
-                     isAbstract="false"
-                     name="PIC30 GCC C Compiler"
-                     natureFilter="both"
-                     outputFlag="-o">
-                  <inputType
-                        dependencyCalculator="org.eclipse.cdt.managedbuilder.makegen.internal.DefaultIndexerDependencyCalculator"
-                        dependencyContentType="org.eclipse.cdt.core.cHeader"
-                        dependencyExtensions="h"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.input"
-                        name="PIC30 COFF GCC Input"
-                        primaryInput="true"
-                        sourceContentType="org.eclipse.cdt.core.cSource"
-                        sources="c"
-                        superClass="cdt.managedbuild.tool.gnu.c.compiler.input">
-                  </inputType>
-                  <outputType
-                        buildVariable="OBJS"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.output"
-                        name="PIC30 COFF GCC Output"
-                        option="-o"
-                        outputContentType="org.eclipse.cdt.core.objectFile"
-                        outputs="o"
-                        primaryOutput="true">
-                  </outputType>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.targetConfiguration"
-                        name="Target Configuration"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.targetConfiguration"
-                        command="-D"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.targetProcessor"
-                        isAbstract="false"
-                        name="Target Processor"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           command="-D__dsPIC30F6014A__"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.targetProcessor.dsPIC30F6014A"
-                           isDefault="true"
-                           name="dsPIC30F6014A">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.symbols"
-                        name="Symbols"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.symbols"
-                        command="-D"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.symbols.defined"
-                        isAbstract="false"
-                        name="Defined symbols (-D)"
-                        resourceFilter="all"
-                        valueType="definedSymbols">
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.includes"
-                        name="Includes"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        browseType="directory"
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.includes"
-                        command="-I"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.includes.includes"
-                        isAbstract="false"
-                        name="Include paths (-I)"
-                        resourceFilter="all"
-                        valueType="includePath">
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.optimization"
-                        name="Optimization"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.optimization"
-                        command="-O"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.optimization.level"
-                        isAbstract="false"
-                        name="Optimization Level"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           command="-O0"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O0"
-                           isDefault="true"
-                           name="None (-O0)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O1"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O1"
-                           isDefault="false"
-                           name="Optimize (-O1)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O2"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O2"
-                           isDefault="false"
-                           name="Optimize more (-O2)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-O3"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.O3"
-                           isDefault="false"
-                           name="Optimize most (-O3)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-Os"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.optimization.level.Os"
-                           isDefault="false"
-                           name="Optimize for size (-Os)">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.debugging"
-                        name="Debugging"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.debugging"
-                        command="-g"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.debuggin.level"
-                        isAbstract="false"
-                        name="Debug Level"
-                        resourceFilter="all"
-                        valueType="enumerated">
-                     <enumeratedOptionValue
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.none"
-                           isDefault="false"
-                           name="None">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g1"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g1"
-                           isDefault="false"
-                           name="Minimal (-g1)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g"
-                           isDefault="true"
-                           name="Default (-g)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g2"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g2"
-                           isDefault="false"
-                           name="Full (-g2)">
-                     </enumeratedOptionValue>
-                     <enumeratedOptionValue
-                           command="-g3"
-                           id="org.eclipse.cdt.pic30.toolchain.tools.coff.gcc.options.debugging.level.g3"
-                           isDefault="false"
-                           name="Maximum (-g3)">
-                     </enumeratedOptionValue>
-                  </option>
-                  <optionCategory
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.misc"
-                        name="Miscellaneous"
-                        owner="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler">
-                  </optionCategory>
-                  <option
-                        category="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.misc"
-                        defaultValue="-c -fmessage-length=0"
-                        id="org.eclipse.cdt.pic30.library.static.configurations.default.toolchain.compiler.options.misc.otherFlags"
-                        isAbstract="false"
-                        name="Other flags"
-                        resourceFilter="all"
-                        valueType="string">
-                  </option>
-               </tool>
             </toolChain>
          </configuration>
       </projectType>
